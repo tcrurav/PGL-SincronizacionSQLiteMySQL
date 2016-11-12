@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.tiburcio.ejemploproveedorcontenido">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ciclo.CicloActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.tiburcio.ejemploproveedorcontenido.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".ciclo.CicloInsercionActivity"
+            android:parentActivityName=".ciclo.CicloActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ciclo.CicloActivity" />
+        </activity>
+
+        <activity
+            android:name=".ciclo.CicloActualizacionActivity"
+            android:parentActivityName=".ciclo.CicloActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ciclo.CicloActivity" />
+        </activity>
+
+        <provider
+            android:name=".proveedor.ProveedorDeContenido"
+            android:authorities="com.example.tiburcio.ejemploproveedorcontenido.proveedor.ProveedorDeContenido"
+            android:enabled="true"
+            android:exported="true" />
+
+    </application>
+
+</manifest>
