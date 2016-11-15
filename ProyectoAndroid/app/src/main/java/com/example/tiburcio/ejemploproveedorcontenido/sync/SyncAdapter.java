@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 
+import com.example.tiburcio.ejemploproveedorcontenido.aplicacion.AppController;
+
 /**
  * Handle the transfer of data between a server and an
  * app, using the Android sync adapter framework.
@@ -16,7 +18,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     // Global variables
     // Define a variable to contain a content resolver instance
     //ContentResolver mContentResolver;
-    Sincronizacion sincronizacion;
+    //Sincronizacion sincronizacion;
     /**
      * Set up the sync adapter
      */
@@ -27,7 +29,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          * from the incoming Context
          */
         //mContentResolver = context.getContentResolver();
-        sincronizacion = new Sincronizacion(context);
+        //sincronizacion = new Sincronizacion(context);
+        AppController.getInstance().setSincronizacion(new Sincronizacion(context));
     }
     
     /**
@@ -45,7 +48,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          * from the incoming Context
          */
         //mContentResolver = context.getContentResolver();
-        sincronizacion = new Sincronizacion(context);
+        //sincronizacion = new Sincronizacion(context);
+        AppController.getInstance().setSincronizacion(new Sincronizacion(context));
     }
 
 	@Override
@@ -53,6 +57,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient arg3, SyncResult arg4) {
 		// TODO Auto-generated method stub
 
-		Sincronizacion.sincronizar();
+		AppController.getInstance().getSincronizacion().sincronizar();
 	}
 }

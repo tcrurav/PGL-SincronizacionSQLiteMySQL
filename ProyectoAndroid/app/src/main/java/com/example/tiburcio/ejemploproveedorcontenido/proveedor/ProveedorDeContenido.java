@@ -26,7 +26,7 @@ public class ProveedorDeContenido extends ContentProvider {
     private SQLiteDatabase sqlDB;
     public DatabaseHelper dbHelper;
     private static final String DATABASE_NAME = "Convalidaciones.db";
-    private static final int DATABASE_VERSION = 1016;
+    private static final int DATABASE_VERSION = 1018;
 
     private static final String CICLO_TABLE_NAME = "Ciclo";
     private static final String BITACORA_TABLE_NAME = "Bitacora";
@@ -274,7 +274,7 @@ public class ProveedorDeContenido extends ContentProvider {
         Cursor c;
         c = qb.query(db, projection, selection, selectionArgs, null, null,
                         sortOrder);
-        //c.setNotificationUri(getContext().getContentResolver(), uri);
+        //c.setNotificationUri(getContext().getContentResolver(), uri); //En la consulta no hay que notificar nada pues no hay cambiado nada
 
         return c;
     }

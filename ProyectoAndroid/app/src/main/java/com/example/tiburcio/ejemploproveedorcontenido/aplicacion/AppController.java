@@ -14,6 +14,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.example.tiburcio.ejemploproveedorcontenido.constantes.G;
 import com.example.tiburcio.ejemploproveedorcontenido.proveedor.Contrato;
+import com.example.tiburcio.ejemploproveedorcontenido.sync.Sincronizacion;
 import com.example.tiburcio.ejemploproveedorcontenido.volley.Utils.LruBitmapCache;
 
 /**
@@ -39,6 +40,8 @@ public class AppController extends Application {
     public static final String ACCOUNT = "Convalidaciones";
     // Sync interval constants
     public static final long SYNC_INTERVAL = G.SYNC_INTERVAL; // Cada 2 minutos
+
+    private Sincronizacion sincronizacion;
 
 
     // Instance fields
@@ -128,11 +131,17 @@ public class AppController extends Application {
         mAccount = CreateSyncAccount(this);
         //Se lanza la sincronización siempre que hay conexión de INTERNET
 
-        resolvedor.setIsSyncable(mAccount, AUTHORITY, 1);
+        //resolvedor.setIsSyncable(mAccount, AUTHORITY, 1); //Creo que no hace falta ponerlo porque ya está en el proveedor en el manifest android:syncable="true"
         resolvedor.setSyncAutomatically(mAccount, AUTHORITY, true);
         resolvedor.setMasterSyncAutomatically(true);
-        //final Bundle extras = new Bundle(1);
-        //extras.putBoolean("nada", true);
         resolvedor.addPeriodicSync(mAccount, AUTHORITY, Bundle.EMPTY, SYNC_INTERVAL);
+    }
+
+    public Sincronizacion getSincronizacion() {
+        return sincronizacion;
+    }
+
+    public void setSincronizacion(Sincronizacion sincronizacion) {
+        this.sincronizacion = sincronizacion;
     }
 }

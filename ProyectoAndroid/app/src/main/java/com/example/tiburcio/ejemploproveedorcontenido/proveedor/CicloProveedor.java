@@ -122,7 +122,7 @@ public class CicloProveedor {
 
     }
 
-    static public void insert(ContentResolver resolver, JSONArray jsonArray){
+/*    static public void insert(ContentResolver resolver, JSONArray jsonArray){
         JSONObject obj = null;
         for (int i = 0; i < jsonArray.length(); i++ ){
             try {
@@ -136,5 +136,5 @@ public class CicloProveedor {
             }
 
         }
-    }
+    }*/
 }

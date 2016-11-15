@@ -6,7 +6,7 @@ package com.example.tiburcio.ejemploproveedorcontenido.constantes;
 
 public class G {
     public static final long SYNC_INTERVAL = 60; // Cada 60 segundos
-    public static final boolean VERSION_ADMINISTRADOR = false;
+    public static final boolean VERSION_ADMINISTRADOR = true;
     public static final int SIN_VALOR_INT = -1;
     public static final String SIN_VALOR_STRING = "";
 

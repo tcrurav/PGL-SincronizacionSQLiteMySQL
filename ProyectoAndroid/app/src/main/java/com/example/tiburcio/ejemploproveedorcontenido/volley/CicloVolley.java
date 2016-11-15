@@ -17,6 +17,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.tiburcio.ejemploproveedorcontenido.aplicacion.AppController;
 import com.example.tiburcio.ejemploproveedorcontenido.constantes.G;
 import com.example.tiburcio.ejemploproveedorcontenido.pojos.Ciclo;
+import com.example.tiburcio.ejemploproveedorcontenido.proveedor.BitacoraProveedor;
 import com.example.tiburcio.ejemploproveedorcontenido.proveedor.CicloProveedor;
 import com.example.tiburcio.ejemploproveedorcontenido.sync.Sincronizacion;
 
@@ -48,21 +49,24 @@ public class CicloVolley {
         String tag_json_obj = "getAllCiclo"; //En realidad debería ser un identificar único para luego poder cancelar la petición.
         String url = ruta;
         // prepare the Request
+
+        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(true);
+
         JsonArrayRequest getRequest = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {
                         // display response
-                        Log.d("Response", response.toString());
-
+                        //Log.d("Response", response.toString());
                         Sincronizacion.realizarActualizacionesDelServidorUnaVezRecibidas(response);
-
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 },
                 new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error.Response", error.getMessage());
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 }
         );
@@ -71,7 +75,7 @@ public class CicloVolley {
         AppController.getInstance().addToRequestQueue(getRequest, tag_json_obj);
     }
 
-    public static void addCiclo(Ciclo ciclo){
+    public static void addCiclo(Ciclo ciclo, final boolean conBitacora, final int idBitacora){
         String tag_json_obj = "addCiclo"; //En realidad debería ser un identificar único para luego poder cancelar la petición.
         String url = ruta;
 
@@ -84,13 +88,17 @@ public class CicloVolley {
             e.printStackTrace();
         }
 
+        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(true);
+
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response) {
                         // response
-                        Log.d("Response", response.toString());
+                        //Log.d("Response", response.toString());
+                        if(conBitacora) BitacoraProveedor.delete(AppController.getResolvedor(), idBitacora);
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 },
                 new Response.ErrorListener()
@@ -99,6 +107,7 @@ public class CicloVolley {
                     public void onErrorResponse(VolleyError error) {
                         // error
                         Log.d("Error.Response", error.getMessage());
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 }
         );
@@ -106,7 +115,7 @@ public class CicloVolley {
         AppController.getInstance().addToRequestQueue(postRequest, tag_json_obj);
     }
 
-    public static void updateCiclo(Ciclo ciclo){
+    public static void updateCiclo(Ciclo ciclo, final boolean conBitacora, final int idBitacora){
         String tag_json_obj = "updateCiclo"; //En realidad debería ser un identificar único para luego poder cancelar la petición.
         String url = ruta + "/" + ciclo.getID();
 
@@ -119,13 +128,17 @@ public class CicloVolley {
             e.printStackTrace();
         }
 
+        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(true);
+
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response) {
                         // response
-                        Log.d("Response", response.toString());
+                        //Log.d("Response", response.toString());
+                        if(conBitacora) BitacoraProveedor.delete(AppController.getResolvedor(), idBitacora);
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 },
                 new Response.ErrorListener()
@@ -134,6 +147,7 @@ public class CicloVolley {
                     public void onErrorResponse(VolleyError error) {
                         // error
                         Log.d("Error.Response", error.getMessage());
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 }
         );
@@ -141,9 +155,11 @@ public class CicloVolley {
         AppController.getInstance().addToRequestQueue(putRequest, tag_json_obj);
     }
 
-    public static void delCiclo(int id){
+    public static void delCiclo(int id, final boolean conBitacora, final int idBitacora){
         String tag_json_obj = "updateCiclo"; //En realidad debería ser un identificar único para luego poder cancelar la petición.
         String url = ruta + "/" + String.valueOf(id);
+
+        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(true);
 
         StringRequest delRequest = new StringRequest(Request.Method.DELETE, url,
                 new Response.Listener<String>()
@@ -151,6 +167,8 @@ public class CicloVolley {
                     @Override
                     public void onResponse(String response) {
                         // response
+                        if(conBitacora) BitacoraProveedor.delete(AppController.getResolvedor(), idBitacora);
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 },
                 new Response.ErrorListener()
@@ -158,6 +176,7 @@ public class CicloVolley {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error.
+                        AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
 
                     }
                 }

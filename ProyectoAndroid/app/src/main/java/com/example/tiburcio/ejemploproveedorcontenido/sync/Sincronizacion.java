@@ -9,11 +9,9 @@ import com.example.tiburcio.ejemploproveedorcontenido.pojos.Bitacora;
 import com.example.tiburcio.ejemploproveedorcontenido.pojos.Ciclo;
 import com.example.tiburcio.ejemploproveedorcontenido.proveedor.BitacoraProveedor;
 import com.example.tiburcio.ejemploproveedorcontenido.proveedor.CicloProveedor;
-import com.example.tiburcio.ejemploproveedorcontenido.rest.CicloRest;
 import com.example.tiburcio.ejemploproveedorcontenido.volley.CicloVolley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -25,23 +23,39 @@ public class Sincronizacion {
     private static final String LOGTAG = "Tiburcio - Sincronizacion";
     private static ContentResolver resolvedor;
     private static Context contexto;
+    private static boolean esperandoRespuestaDeServidor = false;
 
     public Sincronizacion(Context contexto){
         this.resolvedor = contexto.getContentResolver();
         this.contexto = contexto;
+        recibirActualizacionesDelServidor(); //La primera vez se cargan los datos siempre
     }
 
-    public synchronized static boolean sincronizar(){
-        Log.i("sincronizacion","SINCRONIZAR");
-        //if(G.VERSION_ADMINISTRADOR){
-            enviarActualizacionesAlServidor();
-        //} else {
-            recibirActualizacionesDelServidor();
-        //}
+    public synchronized static boolean isEsperandoRespuestaDeServidor() {
+        return esperandoRespuestaDeServidor;
+    }
 
+    public synchronized static void setEsperandoRespuestaDeServidor(boolean esperandoRespuestaDeServidor) {
+        Sincronizacion.esperandoRespuestaDeServidor = esperandoRespuestaDeServidor;
+    }
+
+    public synchronized boolean sincronizar(){
+        Log.i("sincronizacion","SINCRONIZAR");
+
+        if(isEsperandoRespuestaDeServidor()){
+            return true;
+        }
+
+        if(G.VERSION_ADMINISTRADOR){
+            enviarActualizacionesAlServidor();
+        } else {
+            recibirActualizacionesDelServidor();
+        }
 
         return true;
     }
+
+
 
     private static void enviarActualizacionesAlServidor(){
         ArrayList<Bitacora> registrosBitacora = BitacoraProveedor.readAll(resolvedor);
@@ -52,24 +66,21 @@ public class Sincronizacion {
                     Ciclo ciclo = null;
                     try {
                         ciclo = CicloProveedor.read(resolvedor, bitacora.getID_Ciclo());
-                        CicloVolley.addCiclo(ciclo);
-                        BitacoraProveedor.delete(resolvedor, bitacora.getID());
+                        CicloVolley.addCiclo(ciclo, true, bitacora.getID());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case G.OPERACION_MODIFICAR:
                     try {
-                        ciclo = CicloProveedor.read(resolvedor,bitacora.getID_Ciclo());
-                        CicloVolley.updateCiclo(ciclo);
-                        BitacoraProveedor.delete(resolvedor, bitacora.getID());
+                        ciclo = CicloProveedor.read(resolvedor, bitacora.getID_Ciclo());
+                        CicloVolley.updateCiclo(ciclo, true, bitacora.getID());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case G.OPERACION_BORRAR:
-                    CicloVolley.delCiclo(bitacora.getID_Ciclo());
-                    BitacoraProveedor.delete(resolvedor, bitacora.getID());
+                    CicloVolley.delCiclo(bitacora.getID_Ciclo(), true, bitacora.getID());
                     break;
             }
             Log.i("sincronizacion", "acabo de enviar");
