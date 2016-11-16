@@ -35,7 +35,7 @@ import java.util.Map;
  */
 
 public class CicloVolley {
-    final static String ruta = "http://192.168.1.12:8080/Alumnado/webresources/ciclo";
+    final static String ruta = G.RUTA_SERVIDOR + "/ciclo";
     //ContentResolver resolvedor;
     //RequestQueue queue;
     //Context context;
@@ -65,7 +65,7 @@ public class CicloVolley {
                 new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.getMessage());
+                        //Log.d("Error.Response", error.getMessage());
                         AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 }
@@ -106,7 +106,7 @@ public class CicloVolley {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("Error.Response", error.getMessage());
+                        //Log.d("Error.Response", error.getMessage());
                         AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 }
@@ -146,7 +146,7 @@ public class CicloVolley {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("Error.Response", error.getMessage());
+                        //Log.d("Error.Response", error.getMessage());
                         AppController.getInstance().getSincronizacion().setEsperandoRespuestaDeServidor(false);
                     }
                 }

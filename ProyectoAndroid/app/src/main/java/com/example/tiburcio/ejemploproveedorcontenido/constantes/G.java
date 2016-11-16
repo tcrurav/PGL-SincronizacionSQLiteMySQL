@@ -6,7 +6,10 @@ package com.example.tiburcio.ejemploproveedorcontenido.constantes;
 
 public class G {
     public static final long SYNC_INTERVAL = 60; // Cada 60 segundos
-    public static final boolean VERSION_ADMINISTRADOR = true;
+    public static final boolean VERSION_ADMINISTRADOR = false;
+
+    public static final String RUTA_SERVIDOR = "http://192.168.1.12:8080/Alumnado/webresources";
+
     public static final int SIN_VALOR_INT = -1;
     public static final String SIN_VALOR_STRING = "";
 
@@ -18,3 +21,4 @@ public class G {
     public static final int OPERACION_MODIFICAR = 1;
     public static final int OPERACION_BORRAR = 2;
 }
+

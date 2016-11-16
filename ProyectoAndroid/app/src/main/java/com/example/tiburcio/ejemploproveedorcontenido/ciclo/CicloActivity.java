@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.tiburcio.ejemploproveedorcontenido.R;
+import com.example.tiburcio.ejemploproveedorcontenido.constantes.G;
 
 public class CicloActivity extends AppCompatActivity {
 
@@ -29,14 +30,17 @@ public class CicloActivity extends AppCompatActivity {
         transaction.add(R.id.fragment_ciclo, cicloListFragment);
         transaction.commit();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CicloInsercionActivity.class);
-                startActivity(intent);
-            }
-        });
+        if(G.VERSION_ADMINISTRADOR) {
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), CicloInsercionActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
     }
 

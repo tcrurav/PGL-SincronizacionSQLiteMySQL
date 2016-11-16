@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.example.tiburcio.ejemploproveedorcontenido.constantes.G;
+
 public class ProveedorDeContenido extends ContentProvider {
     //private static final String LOGTAG = "Tiburcio - ProveedorDeContenido";
 
@@ -26,7 +28,7 @@ public class ProveedorDeContenido extends ContentProvider {
     private SQLiteDatabase sqlDB;
     public DatabaseHelper dbHelper;
     private static final String DATABASE_NAME = "Convalidaciones.db";
-    private static final int DATABASE_VERSION = 1018;
+    private static final int DATABASE_VERSION = 1019;
 
     private static final String CICLO_TABLE_NAME = "Ciclo";
     private static final String BITACORA_TABLE_NAME = "Bitacora";
@@ -138,14 +140,26 @@ public class ProveedorDeContenido extends ContentProvider {
 
         void inicializarDatos(SQLiteDatabase db){
 
-            db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" +  Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
-                    "VALUES (1,'Administración de Sistemas Informáticos en Red','ASIR')");
-            db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" +  Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
-                    "VALUES (2,'Desarrollo de Aplicaciones Web','DAW')");
-            db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" +  Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
-                    "VALUES (3,'Desarrollo de Aplicaciones Multiplataforma','DAM')");
-            db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" +  Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
-                    "VALUES (4,'Sistemas Microinformáticos y Redes','SMR')");
+            if(G.VERSION_ADMINISTRADOR) {
+
+                db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" + Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
+                        "VALUES (1,'Administración de Sistemas Informáticos en Red','ASIR')");
+                db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" + Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
+                        "VALUES (2,'Desarrollo de Aplicaciones Web','DAW')");
+                db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" + Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
+                        "VALUES (3,'Desarrollo de Aplicaciones Multiplataforma','DAM')");
+                db.execSQL("INSERT INTO " + CICLO_TABLE_NAME + " (" + Contrato.Ciclo._ID + "," + Contrato.Ciclo.NOMBRE + "," + Contrato.Ciclo.ABREVIATURA + ") " +
+                        "VALUES (4,'Sistemas Microinformáticos y Redes','SMR')");
+
+                db.execSQL("INSERT INTO " + BITACORA_TABLE_NAME + " (" + Contrato.Bitacora._ID + "," + Contrato.Bitacora.ID_CICLO + "," + Contrato.Bitacora.OPERACION + ") " +
+                        "VALUES (1,1," + G.OPERACION_INSERTAR + ")");
+                db.execSQL("INSERT INTO " + BITACORA_TABLE_NAME + " (" + Contrato.Bitacora._ID + "," + Contrato.Bitacora.ID_CICLO + "," + Contrato.Bitacora.OPERACION + ") " +
+                        "VALUES (2,2," + G.OPERACION_INSERTAR + ")");
+                db.execSQL("INSERT INTO " + BITACORA_TABLE_NAME + " (" + Contrato.Bitacora._ID + "," + Contrato.Bitacora.ID_CICLO + "," + Contrato.Bitacora.OPERACION + ") " +
+                        "VALUES (3,3," + G.OPERACION_INSERTAR + ")");
+                db.execSQL("INSERT INTO " + BITACORA_TABLE_NAME + " (" + Contrato.Bitacora._ID + "," + Contrato.Bitacora.ID_CICLO + "," + Contrato.Bitacora.OPERACION + ") " +
+                        "VALUES (4,4," + G.OPERACION_INSERTAR + ")");
+            }
         }
 
         @Override

@@ -28,7 +28,7 @@ public class Sincronizacion {
     public Sincronizacion(Context contexto){
         this.resolvedor = contexto.getContentResolver();
         this.contexto = contexto;
-        recibirActualizacionesDelServidor(); //La primera vez se cargan los datos siempre
+        //recibirActualizacionesDelServidor(); //La primera vez se cargan los datos siempre
     }
 
     public synchronized static boolean isEsperandoRespuestaDeServidor() {
@@ -127,7 +127,7 @@ public class Sincronizacion {
                     try {
                         CicloProveedor.delete(resolvedor, ciclo.getID());
                     }catch(Exception e){
-                        Log.i("sincronizacion","Error al borrar el registro con id:"+ciclo.getID());
+                        Log.i("sincronizacion", "Error al borrar el registro con id:" + ciclo.getID());
                     }
                 }
             }
